@@ -10,9 +10,7 @@ public class PlayerController : MonoBehaviour
     private Transform playerBody;
     
     [Header("Check Ground")]
-    [SerializeField] private Transform checkGround;
     [SerializeField] private bool isGrounded;
-    [SerializeField] private LayerMask groundLayer;
     public bool IsGrounded { get => isGrounded; set => isGrounded = value; }
 
     [Header("Movement and jump speed and force")]
@@ -20,6 +18,11 @@ public class PlayerController : MonoBehaviour
     private float speedMovement = 10f;
     private float rotationSpeed = 10f;
     private float jumpForce = 5f;
+
+    [Header("Collisions")]
+    [SerializeField] private bool isCrushingBox;
+    public bool IsCrushingBox { get => isCrushingBox; set => isCrushingBox = value; }
+
 
 
     void Start()
@@ -31,14 +34,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        isGrounded = Physics.CheckSphere(checkGround.position, 0.2f, groundLayer);
         Movement();
         Jump();
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(checkGround.position, 0.2f);
     }
 
     private void Movement()
