@@ -9,10 +9,6 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rbPlayer;
     private Transform playerBody;
     
-    [Header("Check Ground")]
-    [SerializeField] private bool isGrounded;
-    public bool IsGrounded { get => isGrounded; set => isGrounded = value; }
-
     [Header("Movement and jump speed and force")]
     private Vector3 moveDirection;
     private float speedMovement = 10f;
@@ -20,7 +16,9 @@ public class PlayerController : MonoBehaviour
     private float jumpForce = 5f;
 
     [Header("Collisions")]
+    [SerializeField] private bool isGrounded;
     [SerializeField] private bool isCrushingBox;
+    public bool IsGrounded { get => isGrounded; set => isGrounded = value; }
     public bool IsCrushingBox { get => isCrushingBox; set => isCrushingBox = value; }
 
 
