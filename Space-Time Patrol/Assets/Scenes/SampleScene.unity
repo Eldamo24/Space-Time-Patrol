@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 32975148}
   - component: {fileID: 32975147}
   - component: {fileID: 32975146}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +241,7 @@ GameObject:
   - component: {fileID: 297791762}
   - component: {fileID: 297791761}
   - component: {fileID: 297791760}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -861,6 +861,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2062606601}
+  - {fileID: 1378290845}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1089730443
@@ -875,6 +876,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 045716bf7eae79e48b4d1d7da4c2bf22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  checkGround: {fileID: 1378290845}
+  isGrounded: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!54 &1089730444
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -937,7 +943,7 @@ GameObject:
   - component: {fileID: 1134403593}
   - component: {fileID: 1134403592}
   - component: {fileID: 1134403591}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1080,7 +1086,7 @@ GameObject:
   - component: {fileID: 1272459145}
   - component: {fileID: 1272459144}
   - component: {fileID: 1272459143}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1186,7 +1192,7 @@ GameObject:
   - component: {fileID: 1311804096}
   - component: {fileID: 1311804095}
   - component: {fileID: 1311804094}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1280,6 +1286,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1311804092}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1378290844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1378290845}
+  m_Layer: 0
+  m_Name: CheckGround
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1378290845
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378290844}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1089730441}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1865326489
 GameObject:
   m_ObjectHideFlags: 0
@@ -1292,7 +1329,7 @@ GameObject:
   - component: {fileID: 1865326493}
   - component: {fileID: 1865326492}
   - component: {fileID: 1865326491}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
