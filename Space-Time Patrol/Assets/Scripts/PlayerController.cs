@@ -4,21 +4,24 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Player components")]
     private Transform playerPosition;
     private Rigidbody rbPlayer;
     private Transform playerBody;
-    private Vector3 moveDirection;
-
+    
+    [Header("Check Ground")]
     [SerializeField] private Transform checkGround;
     [SerializeField] private bool isGrounded;
     [SerializeField] private LayerMask groundLayer;
+    public bool IsGrounded { get => isGrounded; set => isGrounded = value; }
 
+    [Header("Movement and jump speed and force")]
+    private Vector3 moveDirection;
     private float speedMovement = 10f;
     private float rotationSpeed = 10f;
     private float jumpForce = 5f;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         playerPosition = GetComponent<Transform>();
@@ -26,7 +29,6 @@ public class PlayerController : MonoBehaviour
         playerBody = GetComponentInChildren<Transform>();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         isGrounded = Physics.CheckSphere(checkGround.position, 0.2f, groundLayer);
