@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
                 playerController.IsCrushingBox = false;
             }
         }
-        //playerController.IsCrushingBox = Physics.CheckSphere(checkGround.position, 0.2f, boxLayer);
+        
     }
 
     private void OnDrawGizmos()

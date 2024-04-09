@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     private Transform playerPosition;
     private Rigidbody rbPlayer;
     private Transform playerBody;
-    
+
     [Header("Movement and jump speed and force")]
     private Vector3 moveDirection;
     private float speedMovement = 10f;
@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
         playerBody = GetComponentInChildren<Transform>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         Movement();
         Jump();
@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
+
         if (_isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             rbPlayer.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
