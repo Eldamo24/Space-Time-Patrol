@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MovementPlatformController : MonoBehaviour
 {
-    [SerializeField] private Transform[] points;
     private bool reachedPoint = true;
     private float speedMovement = 3f;
     private Rigidbody rbPlatform;
@@ -14,7 +13,7 @@ public class MovementPlatformController : MonoBehaviour
         rbPlatform = GetComponent<Rigidbody>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (!reachedPoint)
             rbPlatform.MovePosition(transform.position + Vector3.right * speedMovement * Time.deltaTime);
