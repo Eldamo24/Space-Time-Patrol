@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
 
         if (_isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
+            rbPlayer.velocity = Vector3.zero;
             rbPlayer.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
