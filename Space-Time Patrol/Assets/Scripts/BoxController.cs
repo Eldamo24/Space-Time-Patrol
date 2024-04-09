@@ -14,6 +14,7 @@ public class BoxController : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player") && playerController.IsCrushingBox)
         {
+            playerController.ReboundEffect();
             Destroy(gameObject);
         }
     }

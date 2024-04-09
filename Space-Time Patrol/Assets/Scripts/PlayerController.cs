@@ -16,10 +16,10 @@ public class PlayerController : MonoBehaviour
     private float jumpForce = 5f;
 
     [Header("Collisions")]
-    [SerializeField] private bool isGrounded;
-    [SerializeField] private bool isCrushingBox;
-    public bool IsGrounded { get => isGrounded; set => isGrounded = value; }
-    public bool IsCrushingBox { get => isCrushingBox; set => isCrushingBox = value; }
+    [SerializeField] private bool _isGrounded;
+    [SerializeField] private bool _isCrushingBox;
+    public bool IsGrounded { get => _isGrounded; set => _isGrounded = value; }
+    public bool IsCrushingBox { get => _isCrushingBox; set => _isCrushingBox = value; }
 
 
 
@@ -51,9 +51,15 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        if (_isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             rbPlayer.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
+    }
+
+
+    public void ReboundEffect()
+    {
+        rbPlayer.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 }
