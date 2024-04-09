@@ -7,6 +7,7 @@ public class MovementPlatformController : MonoBehaviour
     private bool reachedPoint = true;
     private float speedMovement = 3f;
     private Rigidbody rbPlatform;
+    private float smoothness = 30f;
 
     private void Start()
     {
@@ -16,9 +17,17 @@ public class MovementPlatformController : MonoBehaviour
     private void FixedUpdate()
     {
         if (!reachedPoint)
-            rbPlatform.MovePosition(transform.position + Vector3.right * speedMovement * Time.deltaTime);
+        {
+            Vector3 targetPosition = transform.position + Vector3.right * speedMovement * Time.deltaTime;
+            Vector3 smoothedPosition = Vector3.Lerp(transform.position, targetPosition, smoothness * Time.deltaTime);
+            rbPlatform.MovePosition(smoothedPosition);
+        }
         else
-            rbPlatform.MovePosition(transform.position + Vector3.left * speedMovement * Time.deltaTime);
+        {
+            Vector3 targetPosition = transform.position + Vector3.left * speedMovement * Time.deltaTime;
+            Vector3 smoothedPosition = Vector3.Lerp(transform.position, targetPosition, smoothness * Time.deltaTime);
+            rbPlatform.MovePosition(smoothedPosition);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
