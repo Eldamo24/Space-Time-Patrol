@@ -3263,7 +3263,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b20c4df192a9cc41b7f7a2856fd0555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  points: []
 --- !u!54 &2109533025
 Rigidbody:
   m_ObjectHideFlags: 0
