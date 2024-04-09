@@ -6,7 +6,7 @@ public class MovementPlatformController : MonoBehaviour
 {
     [SerializeField] private Transform[] points;
     private bool reachedPoint = true;
-    private float speedMovement = 5f;
+    private float speedMovement = 3f;
     private Rigidbody rbPlatform;
 
     private void Start()

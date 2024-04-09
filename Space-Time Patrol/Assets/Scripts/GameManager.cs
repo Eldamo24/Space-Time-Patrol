@@ -23,7 +23,20 @@ public class GameManager : MonoBehaviour
     private void CheckCollisions()
     {
         playerController.IsGrounded = Physics.CheckSphere(checkGround.position, 0.2f, groundLayer);
-        playerController.IsCrushingBox = Physics.CheckSphere(checkGround.position, 0.2f, boxLayer);
+        RaycastHit hit;
+        if(Physics.Raycast(checkGround.position, Vector3.down, out hit, 0.2f,  groundLayer))
+        {
+            Debug.DrawRay(checkGround.position, Vector3.down);
+            if(hit.transform.tag == "Box")
+            {
+                playerController.IsCrushingBox = true;
+            }
+            else
+            {
+                playerController.IsCrushingBox = false;
+            }
+        }
+        //playerController.IsCrushingBox = Physics.CheckSphere(checkGround.position, 0.2f, boxLayer);
     }
 
     private void OnDrawGizmos()
