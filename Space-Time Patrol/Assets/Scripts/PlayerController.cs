@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rbPlayer;
     private Transform playerBody;
 
+
     [Header("Movement and jump speed and force")]
     private Vector3 moveDirection;
     private float speedMovement = 10f;
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
         playerBody = GetComponentInChildren<Transform>();
     }
 
+    //Cambiar a fixedupdate al agregar new input system
     void Update()
     {
         Movement();
