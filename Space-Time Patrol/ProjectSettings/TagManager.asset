@@ -6,6 +6,8 @@ TagManager:
   tags:
   - PlatformPoint
   - Box
+  - Clock
+  - Life
   layers:
   - Default
   - TransparentFX
