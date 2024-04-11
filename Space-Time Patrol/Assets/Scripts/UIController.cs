@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UIController : MonoBehaviour
 {
@@ -37,13 +38,15 @@ public class UIController : MonoBehaviour
         InitializeUI();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void CallUILevel(InputAction.CallbackContext callbackContext)
     {
-        if (Input.GetKeyDown(KeyCode.Tab) && !isMoving)
+        if (callbackContext.performed)
         {
-            levelData.SetActive(true);
-            StartCoroutine("MoveInUI");
+            if (!isMoving)
+            {
+                levelData.SetActive(true);
+                StartCoroutine("MoveInUI");
+            }
         }
     }
 
