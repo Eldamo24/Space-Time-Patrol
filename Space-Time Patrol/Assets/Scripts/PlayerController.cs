@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,10 +9,12 @@ public class PlayerController : MonoBehaviour
     private Transform playerPosition;
     private Rigidbody rbPlayer;
     private Transform playerBody;
+    private PlayerInput playerInput;
 
 
     [Header("Movement and jump speed and force")]
     private Vector3 moveDirection;
+    private Vector2 inputs;
     private float speedMovement = 10f;
     private float rotationSpeed = 10f;
     private float jumpForce = 5f;
@@ -29,20 +32,19 @@ public class PlayerController : MonoBehaviour
         playerPosition = GetComponent<Transform>();
         rbPlayer = GetComponent<Rigidbody>();
         playerBody = GetComponentInChildren<Transform>();
+        playerInput = GetComponent<PlayerInput>();
     }
 
     //Cambiar a fixedupdate al agregar new input system
-    void Update()
+    void FixedUpdate()
     {
         Movement();
-        Jump();
     }
 
     private void Movement()
     {
-        float vertical = Input.GetAxisRaw("Vertical");
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        moveDirection = new Vector3(horizontal, 0, vertical);
+        inputs = playerInput.actions["Movement"].ReadValue<Vector2>();
+        moveDirection = new Vector3(inputs.x, 0, inputs.y);
         if (moveDirection != Vector3.zero)
         {
             Quaternion playerBodyRotation = Quaternion.LookRotation(moveDirection);
@@ -51,13 +53,15 @@ public class PlayerController : MonoBehaviour
         rbPlayer.MovePosition(playerPosition.position + moveDirection * speedMovement * Time.deltaTime);
     }
 
-    private void Jump()
+    public void Jump(InputAction.CallbackContext callbackContext)
     {
-
-        if (_isGrounded && Input.GetKeyDown(KeyCode.Space))
+        if (callbackContext.performed)
         {
-            rbPlayer.velocity = Vector3.zero;
-            rbPlayer.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            if (_isGrounded)
+            {
+                rbPlayer.velocity = Vector3.zero;
+                rbPlayer.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            }
         }
     }
 
