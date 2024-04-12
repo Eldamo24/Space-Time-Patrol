@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager instance;
+    private GameStatus _gameStatus;
     private PlayerController playerController;
     [SerializeField] private Transform checkGround;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask boxLayer;
+
+    public GameStatus GameStatus { get => _gameStatus; set => _gameStatus = value; }
+
     // Start is called before the first frame update
     void Start()
     {
+        instance = this;
         playerController = FindObjectOfType<PlayerController>();
+        _gameStatus = GameStatus.Playing;
     }
 
     // Update is called once per frame
@@ -42,5 +49,10 @@ public class GameManager : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(checkGround.position, 0.2f);
+    }
+
+    public void SetGameStatus(GameStatus status)
+    {
+        _gameStatus = status;
     }
 }
