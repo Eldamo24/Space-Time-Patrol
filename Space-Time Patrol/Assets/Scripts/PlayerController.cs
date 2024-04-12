@@ -43,21 +43,24 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
-        inputs = playerInput.actions["Movement"].ReadValue<Vector2>();
-        moveDirection = new Vector3(inputs.x, 0, inputs.y);
-        if (moveDirection != Vector3.zero)
+        if(GameManager.instance.GameStatus == GameStatus.Playing)
         {
-            Quaternion playerBodyRotation = Quaternion.LookRotation(moveDirection);
-            playerBody.rotation = Quaternion.Slerp(playerBody.rotation, playerBodyRotation, rotationSpeed * Time.deltaTime);
+            inputs = playerInput.actions["Movement"].ReadValue<Vector2>();
+            moveDirection = new Vector3(inputs.x, 0, inputs.y);
+            if (moveDirection != Vector3.zero)
+            {
+                Quaternion playerBodyRotation = Quaternion.LookRotation(moveDirection);
+                playerBody.rotation = Quaternion.Slerp(playerBody.rotation, playerBodyRotation, rotationSpeed * Time.deltaTime);
+            }
+            rbPlayer.MovePosition(playerPosition.position + moveDirection * speedMovement * Time.deltaTime);
         }
-        rbPlayer.MovePosition(playerPosition.position + moveDirection * speedMovement * Time.deltaTime);
     }
 
     public void Jump(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.performed)
         {
-            if (_isGrounded)
+            if (_isGrounded && GameManager.instance.GameStatus == GameStatus.Playing)
             {
                 rbPlayer.velocity = Vector3.zero;
                 rbPlayer.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -69,5 +72,10 @@ public class PlayerController : MonoBehaviour
     public void ReboundEffect()
     {
         rbPlayer.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    public void Pause()
+    {
+        UIController.uiController.PauseGame();
     }
 }

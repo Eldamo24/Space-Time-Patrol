@@ -12,6 +12,8 @@ public class UIController : MonoBehaviour
     private Transform targetClocksPosition, targetBoxesPosition, targetLifesPosition;
     private Vector3 initialClocksPosition, initialBoxesPosition, initialLifesPosition;
     private TMP_Text clocksText, boxesText, lifesText;
+    private GameObject pausePanel;
+    private Coroutine moveIn, moveOut;
     private float duration;
     private int lifes, clocks, actualBoxes, totalBoxes;
     private bool isMoving;
@@ -35,6 +37,8 @@ public class UIController : MonoBehaviour
         initialLifesPosition = lifesPosition.position;
         duration = 2f;
         isMoving = false;
+        pausePanel = GameObject.Find("PausePanel");
+        pausePanel.SetActive(false);
         InitializeUI();
     }
 
@@ -42,10 +46,10 @@ public class UIController : MonoBehaviour
     {
         if (callbackContext.performed)
         {
-            if (!isMoving)
+            if (!isMoving && GameManager.instance.GameStatus == GameStatus.Playing)
             {
                 levelData.SetActive(true);
-                StartCoroutine("MoveInUI");
+                moveIn = StartCoroutine("MoveInUI");
             }
         }
     }
@@ -66,7 +70,7 @@ public class UIController : MonoBehaviour
         boxesPosition.position = targetBoxesPosition.position;
         lifesPosition.position = targetLifesPosition.position;
         yield return new WaitForSecondsRealtime(2f);
-        StartCoroutine("MoveOutUI");
+        moveOut = StartCoroutine("MoveOutUI");
     }
 
     IEnumerator MoveOutUI()
@@ -80,9 +84,7 @@ public class UIController : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        clocksPosition.position = initialClocksPosition;
-        boxesPosition.position = initialBoxesPosition;
-        lifesPosition.position = initialLifesPosition;
+        RestartLevelUIPosition();
         isMoving = false;
         yield return null;
     }
@@ -121,5 +123,41 @@ public class UIController : MonoBehaviour
         clocksText.text = "Clocks: " + clocks;
         lifesText.text = "Lifes: " + lifes;
         boxesText.text = "Boxes: " + actualBoxes + "/" + totalBoxes;
+    }
+
+    public void PauseGame()
+    {
+        if(GameManager.instance.GameStatus == GameStatus.Paused)
+        {
+            GameManager.instance.GameStatus = GameStatus.Playing;
+            Time.timeScale = 1;
+            pausePanel.SetActive(false);
+        }
+        else
+        {
+            GameManager.instance.GameStatus = GameStatus.Paused;
+            StopAllCoroutines();
+            RestartLevelUIPosition();
+            isMoving = false;
+            Time.timeScale = 0;
+            pausePanel.SetActive(true);
+        }
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void ResumeGame()
+    {
+        PauseGame();
+    }
+
+    private void RestartLevelUIPosition()
+    {
+        clocksPosition.position = initialClocksPosition;
+        boxesPosition.position = initialBoxesPosition;
+        lifesPosition.position = initialLifesPosition;
     }
 }
