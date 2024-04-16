@@ -105,6 +105,5 @@ public class PlayerController : MonoBehaviour
         rbPlayer.useGravity = true;
         transform.GetChild(0).gameObject.SetActive(true);
         playerInput.enabled = true;
-        
     }
 }
