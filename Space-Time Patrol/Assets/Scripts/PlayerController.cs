@@ -11,21 +11,25 @@ public class PlayerController : MonoBehaviour
     private Transform playerBody;
     private PlayerInput playerInput;
 
+    [Header("Player states")]
+    private bool _isDead;
+    public bool IsDead { get => _isDead; set => _isDead = value; }
+
 
     [Header("Movement and jump speed and force")]
     private Vector3 moveDirection;
     private Vector2 inputs;
     private float speedMovement = 10f;
     private float rotationSpeed = 10f;
-    private float jumpForce = 5f;
+    private float jumpForce = 6f;
 
     [Header("Collisions")]
     [SerializeField] private bool _isGrounded;
     [SerializeField] private bool _isCrushingBox;
+    [SerializeField] private bool _isCrushingEnemy;
     public bool IsGrounded { get => _isGrounded; set => _isGrounded = value; }
     public bool IsCrushingBox { get => _isCrushingBox; set => _isCrushingBox = value; }
-
-
+    public bool IsCrushingEnemy { get => _isCrushingEnemy; set => _isCrushingEnemy = value; }
 
     void Start()
     {
