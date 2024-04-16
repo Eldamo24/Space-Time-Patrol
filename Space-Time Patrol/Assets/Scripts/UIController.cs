@@ -92,7 +92,7 @@ public class UIController : MonoBehaviour
     private void InitializeUI()
     {
         clocks = 0;
-        lifes = 3;
+        lifes = FindObjectOfType<PlayerController>().PlayerLifes;
         actualBoxes = 0;
         totalBoxes = GameObject.FindGameObjectsWithTag("Box").Length;
         clocksText.text = "Clocks: " + clocks;
@@ -100,9 +100,9 @@ public class UIController : MonoBehaviour
         boxesText.text = "Boxes: " + actualBoxes + "/" + totalBoxes;
     }
 
-    public void SetLifes(int life)
+    public void SetLifes()
     {
-        lifes += life;
+        lifes = FindObjectOfType<PlayerController>().PlayerLifes;
         UpdateUI();
     }
 

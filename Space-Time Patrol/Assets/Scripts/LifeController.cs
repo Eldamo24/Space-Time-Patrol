@@ -8,7 +8,8 @@ public class LifeController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player")) 
         {
-            UIController.uiController.SetLifes(1);
+            FindObjectOfType<PlayerController>().PlayerLifes++;
+            UIController.uiController.SetLifes();
             Destroy(gameObject);
         }
     }

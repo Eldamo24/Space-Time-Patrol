@@ -8,6 +8,8 @@ TagManager:
   - Box
   - Clock
   - Life
+  - Enemy
+  - ChangeDirection
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - Water
   - UI
   - Box
-  - 
+  - Enemy
   - 
   - 
   - 

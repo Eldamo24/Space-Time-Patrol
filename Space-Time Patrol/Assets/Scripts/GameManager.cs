@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform checkGround;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask boxLayer;
+    [SerializeField] private LayerMask enemyLayer;
 
     public GameStatus GameStatus { get => _gameStatus; set => _gameStatus = value; }
 
@@ -18,18 +20,36 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         playerController = FindObjectOfType<PlayerController>();
+        playerController.PlayerLifes = 3;
+        playerController.IsDead = false;
         _gameStatus = GameStatus.Playing;
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         CheckCollisions();
+        if (playerController.IsDead)
+        {
+            if(playerController.PlayerLifes > 0)
+            {
+                playerController.PlayerLifes--;
+                UIController.uiController.SetLifes();
+                playerController.IsDead = false;
+                StartCoroutine("ResetLevel");
+            }
+            else
+            {
+                StartCoroutine("RestartGame");
+            }
+        }
+            
     }
 
     private void CheckCollisions()
     {
         playerController.IsGrounded = Physics.CheckSphere(checkGround.position, 0.2f, groundLayer);
+        playerController.IsCrushingEnemy = Physics.CheckSphere(checkGround.position, 0.2f, enemyLayer);
         RaycastHit hit;
         if(Physics.Raycast(checkGround.position, Vector3.down, out hit, 0.2f,  groundLayer))
         {
@@ -54,5 +74,17 @@ public class GameManager : MonoBehaviour
     public void SetGameStatus(GameStatus status)
     {
         _gameStatus = status;
+    }
+
+    IEnumerator ResetLevel()
+    {
+        yield return new WaitForSecondsRealtime(3f);
+        playerController.ResetPlayer();
+    }
+
+    IEnumerator RestartGame()
+    {
+        yield return new WaitForSecondsRealtime(3f);
+        SceneManager.LoadScene("Prototype");
     }
 }
