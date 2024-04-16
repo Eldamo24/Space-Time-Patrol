@@ -11,10 +11,14 @@ public class PlayerController : MonoBehaviour
     private Transform playerBody;
     private PlayerInput playerInput;
 
+    private Transform startPosition;
+
     [Header("Player states")]
     private bool _isDead;
     public bool IsDead { get => _isDead; set => _isDead = value; }
 
+    private int _playerLifes;
+    public int PlayerLifes { get => _playerLifes; set => _playerLifes = value; }
 
     [Header("Movement and jump speed and force")]
     private Vector3 moveDirection;
@@ -30,6 +34,7 @@ public class PlayerController : MonoBehaviour
     public bool IsGrounded { get => _isGrounded; set => _isGrounded = value; }
     public bool IsCrushingBox { get => _isCrushingBox; set => _isCrushingBox = value; }
     public bool IsCrushingEnemy { get => _isCrushingEnemy; set => _isCrushingEnemy = value; }
+    
 
     void Start()
     {
@@ -37,6 +42,7 @@ public class PlayerController : MonoBehaviour
         rbPlayer = GetComponent<Rigidbody>();
         playerBody = GetComponentInChildren<Transform>();
         playerInput = GetComponent<PlayerInput>();
+        startPosition = GameObject.Find("StartPosition").GetComponent<Transform>(); ;
     }
 
     //Cambiar a fixedupdate al agregar new input system
@@ -81,5 +87,15 @@ public class PlayerController : MonoBehaviour
     public void Pause()
     {
         UIController.uiController.PauseGame();
+    }
+
+    public void ResetPlayer()
+    {
+        transform.position = startPosition.position;
+        gameObject.GetComponent<CapsuleCollider>().enabled = true;
+        gameObject.GetComponent<Rigidbody>().useGravity = true;
+        transform.GetChild(0).gameObject.SetActive(true);
+        playerInput.enabled = true;
+        
     }
 }

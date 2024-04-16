@@ -20,16 +20,30 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         playerController = FindObjectOfType<PlayerController>();
+        playerController.PlayerLifes = 3;
         playerController.IsDead = false;
         _gameStatus = GameStatus.Playing;
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         CheckCollisions();
         if (playerController.IsDead)
-            StartCoroutine("ResetLevel");
+        {
+            if(playerController.PlayerLifes > 0)
+            {
+                playerController.PlayerLifes--;
+                UIController.uiController.SetLifes();
+                playerController.IsDead = false;
+                StartCoroutine("ResetLevel");
+            }
+            else
+            {
+                StartCoroutine("RestartGame");
+            }
+        }
+            
     }
 
     private void CheckCollisions()
@@ -63,6 +77,12 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator ResetLevel()
+    {
+        yield return new WaitForSecondsRealtime(3f);
+        playerController.ResetPlayer();
+    }
+
+    IEnumerator RestartGame()
     {
         yield return new WaitForSecondsRealtime(3f);
         SceneManager.LoadScene("Prototype");
