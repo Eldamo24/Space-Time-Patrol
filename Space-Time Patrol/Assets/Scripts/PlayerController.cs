@@ -89,11 +89,20 @@ public class PlayerController : MonoBehaviour
         UIController.uiController.PauseGame();
     }
 
+    public void PlayerDeath()
+    {
+        gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        _isDead = true;
+        playerInput.enabled = false;
+        gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        rbPlayer.useGravity = false;
+    }
+
     public void ResetPlayer()
     {
         transform.position = startPosition.position;
         gameObject.GetComponent<CapsuleCollider>().enabled = true;
-        gameObject.GetComponent<Rigidbody>().useGravity = true;
+        rbPlayer.useGravity = true;
         transform.GetChild(0).gameObject.SetActive(true);
         playerInput.enabled = true;
         

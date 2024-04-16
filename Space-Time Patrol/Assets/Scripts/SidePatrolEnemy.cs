@@ -22,12 +22,7 @@ public class SidePatrolEnemy : MonoBehaviour, IEnemy
         }
         else
         {
-            //TODO: death logic
-            collision.gameObject.transform.GetChild(0).gameObject.SetActive(false);
-            collision.gameObject.GetComponent<PlayerController>().IsDead = true;
-            collision.gameObject.GetComponent<PlayerInput>().enabled = false;
-            collision.gameObject.GetComponent<CapsuleCollider>().enabled = false;
-            collision.gameObject.GetComponent<Rigidbody>().useGravity = false;
+            collision.gameObject.GetComponent<PlayerController>().PlayerDeath();
         }
     }
 }
