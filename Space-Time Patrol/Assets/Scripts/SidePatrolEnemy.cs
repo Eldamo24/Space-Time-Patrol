@@ -3,16 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class SidePatrolEnemy : MonoBehaviour, IEnemy
+public class SidePatrolEnemy : MonoBehaviour
 {
-    public int Life { get; set; }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        Life = -1;    
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player") && collision.gameObject.GetComponent<PlayerController>().IsCrushingEnemy)
