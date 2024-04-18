@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rbPlayer;
     private Transform playerBody;
     private PlayerInput playerInput;
+    private Transform orientation;
+
+    private Camera cam;
 
     private Transform startPosition;
 
@@ -38,6 +42,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        cam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        orientation = GameObject.Find("Orientation").GetComponent<Transform>();
         playerPosition = GetComponent<Transform>();
         rbPlayer = GetComponent<Rigidbody>();
         playerBody = GetComponentInChildren<Transform>();
@@ -53,16 +59,14 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
-        if(GameManager.instance.GameStatus == GameStatus.Playing)
+        Vector3 viewDir = playerPosition.position - new Vector3(cam.transform.position.x, playerPosition.position.y, cam.transform.position.z);
+        orientation.forward = viewDir.normalized;
+        inputs = playerInput.actions["Movement"].ReadValue<Vector2>();
+        Vector3 inputDir = orientation.forward * inputs.y + orientation.right * inputs.x;
+        if (inputDir != Vector3.zero)
         {
-            inputs = playerInput.actions["Movement"].ReadValue<Vector2>();
-            moveDirection = new Vector3(inputs.x, 0, inputs.y);
-            if (moveDirection != Vector3.zero)
-            {
-                Quaternion playerBodyRotation = Quaternion.LookRotation(moveDirection);
-                playerBody.rotation = Quaternion.Slerp(playerBody.rotation, playerBodyRotation, rotationSpeed * Time.deltaTime);
-            }
-            rbPlayer.MovePosition(playerPosition.position + moveDirection * speedMovement * Time.deltaTime);
+            playerBody.forward = Vector3.Slerp(playerBody.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
+            rbPlayer.MovePosition(playerPosition.position + inputDir * Time.deltaTime * speedMovement);
         }
     }
 
