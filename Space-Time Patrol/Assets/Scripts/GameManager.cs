@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         instance = this;
         playerController = FindObjectOfType<PlayerController>();
         playerController.PlayerLifes = 3;
