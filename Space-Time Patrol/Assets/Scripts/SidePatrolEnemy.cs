@@ -10,7 +10,7 @@ public class SidePatrolEnemy : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") && collision.gameObject.GetComponent<PlayerController>().IsCrushingEnemy)
         {
             collision.gameObject.GetComponent<PlayerController>().ReboundEffect();
-            Destroy(gameObject);
+            Destroy(transform.parent.gameObject);
         }
         else
         {

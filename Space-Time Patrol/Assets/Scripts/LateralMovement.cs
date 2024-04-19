@@ -5,46 +5,47 @@ using UnityEngine.EventSystems;
 
 public class LateralMovement : MonoBehaviour
 {
-    private bool reachedPoint = true;
-    [SerializeField] private float speedMovement = 3f;
-    private Rigidbody rbPlatform;
-    private float smoothness = 30f;
-    private Vector3 smoothedPosition;
+    private float duration = 5f;
+    [SerializeField] private Transform firstTarget;
+    [SerializeField] private Transform SecondTarget;
+
 
     private void Start()
     {
-        rbPlatform = GetComponent<Rigidbody>();
+        StartCoroutine("LateralPatrol");
     }
 
-    private void FixedUpdate()
+    IEnumerator LateralPatrol()
     {
-        if (!reachedPoint)
+        while (true)
         {
-            lateralMovement(Vector3.right);
-        }
-        else
-        {
-            lateralMovement(Vector3.left);
-        }
-    }
-
-    public void lateralMovement(Vector3 direction)
-    {
-        Vector3 targetPosition = transform.position + direction * speedMovement * Time.deltaTime;
-        smoothedPosition = Vector3.Lerp(transform.position, targetPosition, smoothness * Time.deltaTime);
-        rbPlatform.MovePosition(smoothedPosition);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.tag == "ChangeDirection")
-        {
-            reachedPoint = !reachedPoint;
-            if (gameObject.tag == "Enemy")
+            float elapsedTime = 0;
+            while (elapsedTime < duration)
             {
-                transform.Rotate(new Vector3(0, 180, 0));
+                float escaleFactor = elapsedTime / duration;
+                float smoothEscaleFactor = Mathf.SmoothStep(0f, 1f, escaleFactor);
+                transform.position = Vector3.Lerp(transform.position, firstTarget.position, smoothEscaleFactor);
+                elapsedTime += Time.deltaTime;
+                yield return null;
             }
+            transform.position = firstTarget.position;
+            transform.Rotate(new Vector3(0, 180, 0));
+            elapsedTime = 0;
+            while (elapsedTime < duration)
+            {
+                float escaleFactor = elapsedTime / duration;
+                float smoothEscaleFactor = Mathf.SmoothStep(0f, 1f, escaleFactor);
+                transform.position = Vector3.Lerp(transform.position, SecondTarget.position, smoothEscaleFactor);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            transform.position = SecondTarget.position;
+            transform.Rotate(new Vector3(0, 180, 0));
         }
+    }
 
+    private void OnDestroy()
+    {
+        StopCoroutine("LateralPatrol");
     }
 }
